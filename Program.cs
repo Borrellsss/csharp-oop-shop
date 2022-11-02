@@ -12,35 +12,28 @@
 //Il prodotto esponga un metodo per avere il nome esteso, ottenuto concatenando codice + nome V
 //Nella vostro programma principale, testate tutte le funzionalità della classe Prodotto.
 //BONUS: create un metodo che restituisca il codice con un pad left di 0 per arrivare a 8 caratteri (ad esempio codice 91 diventa 00000091, mentre codice 123445567 resta come è)
+
+string userProductName = Console.ReadLine();
+
+Product testProduct = new Product(userProductName, "un'incredibile penna normale", 1.50, 22);
+
+Console.WriteLine(testProduct.AddPadLeft());
+Console.WriteLine(testProduct.GetName());
+Console.WriteLine(testProduct.GetPrice());
+Console.WriteLine(testProduct.GetPricePlusIva());
+
 public class Product
 {
     protected int code;
     protected string name;
     protected string description;
-    protected decimal price;
+    protected double price;
     protected int iva;
 
     //Construct
-    public Product(string name, string description, decimal price, int iva)
+    public Product(string name, string description, double price, int iva)
     {
         this.code = new Random().Next(1, 99999999);
-
-        string codeToCheck = this.code.ToString();
-
-        char[] padLeft = new char[8 - codeToCheck.Length];
-
-        string newCode = "";
-
-        for (int i = 0; i < padLeft.Length; i++)
-        {
-            padLeft[i] = '0';
-            newCode += padLeft[i];
-        }
-
-        newCode += codeToCheck;
-
-        this.code = newCode;
-
         this.name = name;
         this.description = description;
         this.price = price;
@@ -63,7 +56,7 @@ public class Product
         return this.description;
     }
 
-    public decimal GetPrice()
+    public double GetPrice()
     {
         return this.price;
     }
@@ -73,9 +66,9 @@ public class Product
         return this.iva;
     }
 
-    public decimal GetPricePlusIva()
+    public double GetPricePlusIva()
     {
-        decimal finalPrice = this.price + ((this.price * this.iva) / 100); 
+        double finalPrice = this.price + ((this.price * this.iva) / 100); 
 
         return finalPrice;
     }
@@ -98,7 +91,7 @@ public class Product
         this.description = newDescription;
     }
 
-    public void SetPrice(decimal newPrice)
+    public void SetPrice(double newPrice)
     {
         this.price = newPrice;
     }
@@ -106,5 +99,36 @@ public class Product
     public void GetIva(int newIva)
     {
         this.iva = newIva;
+    }
+
+    public int AddPadLeft()
+    {
+        string codeToChange = Convert.ToString(this.code);
+
+        if (codeToChange.Length < 8)
+        {
+            
+            char[] padLeft = new char[8 - codeToChange.Length];
+
+            string newCode = "";
+
+            for (int i = 0; i < padLeft.Length; i++)
+            {
+                padLeft[i] = '0';
+                newCode += padLeft[i];
+            }
+
+            newCode += codeToChange;
+
+            Console.WriteLine(newCode);
+
+            this.code = Convert.ToInt32(newCode);
+
+            return this.code;
+        }
+        else
+        {
+            return this.code;
+        }
     }
 }
