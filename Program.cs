@@ -18,19 +18,15 @@ Console.WriteLine();
 
 Console.Write("nome: ");
 string userProductName = Console.ReadLine();
-Console.WriteLine();
 
 Console.Write("decrizione: ");
 string userProductDescription = Console.ReadLine();
-Console.WriteLine();
 
 Console.Write("prezzo: ");
 double userProductPrice = Convert.ToDouble(Console.ReadLine());
-Console.WriteLine();
 
 Console.Write("iva: ");
 int userProductIva = Convert.ToInt32(Console.ReadLine());
-Console.WriteLine();
 
 Product testProduct = new Product(userProductName, userProductDescription, userProductPrice, userProductIva);
 
@@ -65,16 +61,16 @@ public class Product
 
     //Getters
 
-    public double GetPricePlusIva()
+    public string GetPricePlusIva()
     {
-        double finalPrice = this.Price + ((this.Price * this.Iva) / 100); 
+        string finalPrice = $"{Math.Round(this.Price + ((this.Price * this.Iva) / 100), 2)} euro"; 
 
         return finalPrice;
     }
 
     public string GetExtendedName()
     {
-        string extendedName = this.Code + this.Name;
+        string extendedName = $"{this.Code} - {this.Name}";
 
         return extendedName;
     }
