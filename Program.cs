@@ -13,102 +13,81 @@
 //Nella vostro programma principale, testate tutte le funzionalità della classe Prodotto.
 //BONUS: create un metodo che restituisca il codice con un pad left di 0 per arrivare a 8 caratteri (ad esempio codice 91 diventa 00000091, mentre codice 123445567 resta come è)
 
+Console.WriteLine("crea una nuova istanza della classe \"Product\":");
+Console.WriteLine();
+
+Console.Write("nome: ");
 string userProductName = Console.ReadLine();
+Console.WriteLine();
 
-Product testProduct = new Product(userProductName, "un'incredibile penna normale", 1.50, 22);
+Console.Write("decrizione: ");
+string userProductDescription = Console.ReadLine();
+Console.WriteLine();
 
-Console.WriteLine(testProduct.AddPadLeft());
-Console.WriteLine(testProduct.GetName());
-Console.WriteLine(testProduct.GetPrice());
-Console.WriteLine(testProduct.GetPricePlusIva());
+Console.Write("prezzo: ");
+double userProductPrice = Convert.ToDouble(Console.ReadLine());
+Console.WriteLine();
+
+Console.Write("iva: ");
+int userProductIva = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine();
+
+Product testProduct = new Product(userProductName, userProductDescription, userProductPrice, userProductIva);
+
+Console.WriteLine("dettagli istanza della classe \"Product\" appena creata:");
+Console.WriteLine($"codice: {testProduct.Code}");
+Console.WriteLine($"nome: {testProduct.Name}");
+Console.WriteLine($"descrizione: {testProduct.Description}");
+Console.WriteLine($"prezzo: {testProduct.Price}");
+Console.WriteLine($"iva: {testProduct.Iva}");
+Console.WriteLine($"prezzo con iva: {testProduct.GetPricePlusIva()}");
+Console.WriteLine($"nome più codice: {testProduct.GetExtendedName()}");
+Console.WriteLine($"codice con aggiunta, se necessario, del \"pad-left\": {testProduct.AddPadLeft()}");
 
 public class Product
 {
-    protected int code;
-    protected string name;
-    protected string description;
-    protected double price;
-    protected int iva;
+    public int Code { get; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public double Price { get; set; }
+    public int Iva { get; set; }
 
     //Construct
+
     public Product(string name, string description, double price, int iva)
     {
-        this.code = new Random().Next(1, 99999999);
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.iva = iva;
+        this.Code = new Random().Next(1, 99999999);
+        this.Name = name;
+        this.Description = description;
+        this.Price = price;
+        this.Iva = iva;
     }
 
     //Getters
-    public int GetCode()
-    {
-        return this.code;
-    }
-
-    public string GetName()
-    {
-        return this.name;
-    }
-
-    public string GetDescription()
-    {
-        return this.description;
-    }
-
-    public double GetPrice()
-    {
-        return this.price;
-    }
-
-    public int GetIva()
-    {
-        return this.iva;
-    }
 
     public double GetPricePlusIva()
     {
-        double finalPrice = this.price + ((this.price * this.iva) / 100); 
+        double finalPrice = this.Price + ((this.Price * this.Iva) / 100); 
 
         return finalPrice;
     }
 
     public string GetExtendedName()
     {
-        string extendedName = this.code.ToString() + this.name;
+        string extendedName = this.Code + this.Name;
 
         return extendedName;
     }
 
-    //Setters
-    public void SetName(string newName)
-    {
-        this.name = newName;
-    }
+    //other methods
 
-    public void SetDescription(string newDescription)
+    public string AddPadLeft()
     {
-        this.description = newDescription;
-    }
+        string codeToString = Convert.ToString(this.Code);
 
-    public void SetPrice(double newPrice)
-    {
-        this.price = newPrice;
-    }
-
-    public void GetIva(int newIva)
-    {
-        this.iva = newIva;
-    }
-
-    public int AddPadLeft()
-    {
-        string codeToChange = Convert.ToString(this.code);
-
-        if (codeToChange.Length < 8)
+        if (codeToString.Length < 8)
         {
-            
-            char[] padLeft = new char[8 - codeToChange.Length];
+            char[] padLeft = new char[8 - codeToString.Length];
 
             string newCode = "";
 
@@ -118,17 +97,13 @@ public class Product
                 newCode += padLeft[i];
             }
 
-            newCode += codeToChange;
+            newCode += codeToString;
 
-            Console.WriteLine(newCode);
-
-            this.code = Convert.ToInt32(newCode);
-
-            return this.code;
+            return newCode;
         }
         else
         {
-            return this.code;
+            return codeToString;
         }
     }
 }
